@@ -11,6 +11,7 @@ class ES:
     def __init__(self,
                  config_path: str = 'credentials/config.yaml',
                  log_content: bool = False):
+        """ Base class that would provide functions for all ES apis. Heart of class composition design"""
 
         self.config_path = config_path
         self.parent_url = ""
@@ -20,7 +21,10 @@ class ES:
         self.res = None
         self.log_content = log_content
 
-    def init(self):
+    def init(self) -> None:
+        """
+        Intialize: authorize connection to ES, create headers and parenty_url
+        """
         config = read_config(self.config_path)
         # api_token = binascii.b2a_base64(api_auth_str).rstrip(b"\r\n").decode("utf-8")
         # api_auth_str = f"{config['api_id']}:{config['api_key']}".encode("utf-8")
@@ -36,9 +40,17 @@ class ES:
             self.headers = headers
 
     def handle_request(self,
-                        method: str,
-                        url: str,
-                        data: Optional[Dict] = None) -> requests.Response:
+                       method: str,
+                       url: str,
+                       data: Optional[Dict] = None) -> requests.Response:
+
+        """
+        Inner method for handling request
+        :param method: Method name (one of GET, POST, DELETE, PUT)
+        :param url: URL to send to request to
+        :param data: Optional data to be sent in request body
+        :return: Requsts response
+        """
         self.logger.info(f"Request URL : {url}")
         self.logger.info(f"Method : {method}")
 
@@ -59,6 +71,13 @@ class ES:
         return res
 
     def sql(self, query: str, response_format: str = 'json', size: int = 1000) -> Any:
+        """
+        Method to send SQL query to ES
+        :param query: Query string
+        :param response_format: Response format - one of json, csv, tsv, df (pandas dataframe)
+        :param size: size limit of the query
+        :return: Data in some format (df or response content)
+        """
         if response_format == 'df':
             _response_format = 'json'
         else:
