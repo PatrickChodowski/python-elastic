@@ -8,10 +8,3 @@ cl = Cluster(es=es)
 
 r = idx.search("nba", data={"query": {"match_all": {}}})
 
-
-
-# r = es.get_index('nba')
-#a = es.create_document('nba', data={"team_abbreviation": "MEM"})
-
-# df = es.sql(query="SELECT player FROM nba", response_format='json')
-
