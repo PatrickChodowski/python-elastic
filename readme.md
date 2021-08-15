@@ -37,7 +37,8 @@ Use SQL:
 df = es.sql(query="SELECT team_abbreviation FROM nba", response_format='df')
 ```
 
-Search for all documents:
+Search examples:
+this is gold - > https://github.com/LisaHJung/Part-3-Running-full-text-queries-and-combined-queries-with-Elasticsearch-and-Kibana
 ```python
 r = idx.search("nba", data={"query": {"match_all": {}}})
 ```
@@ -47,9 +48,17 @@ r = idx.search("nba", data={"track_total_hits": "true"})
 ```
 
 ```python
-r = idx.search("nba", data={"query": {"range": {"date": {"gte": "2021-08-13"}}}})
+r = idx.search("nba", data={"query": {"match": {"team_abbreviation": "DEN"}}})```
 ```
 
+damn this is ugly:
+```python
+r = idx.search("nba", data={"aggs": {"by_category": {"terms": {"field": "team_abbreviation"}}}})
+```
+
+```python
+r = idx.search("nba", data={"query": {"match": {"team_abbreviation": {"query": "DEN LAL LAC"}}}})
+```
 
 ### notes:
 

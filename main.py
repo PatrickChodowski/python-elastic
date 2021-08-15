@@ -7,7 +7,9 @@ ds = DataStream(es=es)
 cl = Cluster(es=es)
 
 
-r = idx.search("nba", data={"query": {"match_all": {}}})
+r = idx.search("nba", data={"query": {"match": {"team_abbreviation": {"query": "DEN LAL LAC"}}}})
 
 # track exact number of hits
-r = idx.search("nba", data={"query": {"range": {"date": {"gte": "2021-08-13"}}}})
+r = idx.search("nba", data={"query": {"match": {"team_abbreviation": "DEN"}}})
+
+r = idx.search("nba", data={"aggs": {"by_category": {"terms": {"field": "team_abbreviation"}}}})
