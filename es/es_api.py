@@ -9,7 +9,8 @@ from .utils import _convert_to_df
 
 class ES:
     def __init__(self,
-                 config_path: str = 'credentials/config.yaml'):
+                 config_path: str = 'credentials/config.yaml',
+                 log_content: bool = False):
 
         self.config_path = config_path
         self.parent_url = ""
@@ -17,6 +18,7 @@ class ES:
         self.init()
         self.logger = get_logger('ES')
         self.res = None
+        self.log_content = log_content
 
     def init(self):
         config = read_config(self.config_path)
@@ -52,7 +54,8 @@ class ES:
                                verify=True,
                                data=data)
         self.logger.info(f"Status : {res.status_code}")
-        self.logger.info(f"Content : {res.content}")
+        if self.log_content:
+            self.logger.info(f"Content : {res.content}")
         return res
 
     def sql(self, query: str, response_format: str = 'json', size: int = 1000) -> Any:

@@ -8,17 +8,23 @@ Written using requests library.
 ### usege:
 Init:
 ```python
-from es import ES, Index, Document, DataStream
+from es import ES, Index, Document, DataStream, Cluster
 es = ES()
-i = Index(es=es)
+idx = Index(es=es)
 doc = Document(es=es)
 ds = DataStream(es=es)
+cl = Cluster(es=es)
 ```
 
+Get Cluster info:
+```python
+cl.get_health()
+cl.get_nodes_info()
+```
 
 Get index:
 ```python
-r = i.get('nba')
+r = idx.get('nba')
 ```
 
 Create document:
@@ -30,6 +36,8 @@ Use SQL:
 ```python
 df = es.sql(query="SELECT team_abbreviation FROM nba", response_format='df')
 ```
+
+
 
 
 ### notes:
