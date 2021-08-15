@@ -1,4 +1,4 @@
-from .utils import _convert_to_df
+from .utils import _convert_to_df, _get_logger, _read_config
 from .es_api import ES
 from .index import Index
 from .document import Document

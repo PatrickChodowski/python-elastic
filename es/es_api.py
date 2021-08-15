@@ -1,10 +1,9 @@
 
 import requests
 import binascii
-from utils import read_config, get_logger
 from typing import Optional, Dict, Any
 import json
-from .utils import _convert_to_df
+from .utils import _convert_to_df, _read_config, _get_logger
 
 
 class ES:
@@ -17,7 +16,7 @@ class ES:
         self.parent_url = ""
         self.headers = dict()
         self.init()
-        self.logger = get_logger('ES')
+        self.logger = _get_logger('ES')
         self.res = None
         self.log_content = log_content
 
@@ -25,7 +24,7 @@ class ES:
         """
         Intialize: authorize connection to ES, create headers and parenty_url
         """
-        config = read_config(self.config_path)
+        config = _read_config(self.config_path)
         # api_token = binascii.b2a_base64(api_auth_str).rstrip(b"\r\n").decode("utf-8")
         # api_auth_str = f"{config['api_id']}:{config['api_key']}".encode("utf-8")
 
