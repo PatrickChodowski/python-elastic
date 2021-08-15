@@ -6,25 +6,28 @@ Written using requests library.
 
 
 ### usege:
+Init:
+```python
+from es import ES, Index, Document, DataStream
+es = ES()
+i = Index(es=es)
+doc = Document(es=es)
+ds = DataStream(es=es)
+```
+
 
 Get index:
 ```python
-from es import ES
-es = ES()
-r = es.get_index('nba')
+r = i.get('nba')
 ```
 
 Create document:
 ```python
-from es import ES
-es = ES()
-es.create_document("nba", data={"team_abbreviation": "MEM"})
+doc.create("nba", data={"team_abbreviation": "MEM"})
 ```
 
 Use SQL:
 ```python
-from es import ES
-es = ES()
 df = es.sql(query="SELECT team_abbreviation FROM nba", response_format='df')
 ```
 
