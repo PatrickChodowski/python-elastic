@@ -1,15 +1,16 @@
 
 import requests
 import binascii
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Union
 import json
-from .utils import _convert_to_df, _read_config, _get_logger
+from .utils import _convert_to_df, _read_config, _get_logger, get_dict
 
 
 class ES:
     def __init__(self,
                  config_path: str = 'credentials/config.yaml',
-                 log_content: bool = False):
+                 log_content: bool = False,
+                 return_dict: bool = True):
         """ Base class that would provide functions for all ES apis. Heart of class composition design"""
 
         self.config_path = config_path
@@ -19,6 +20,7 @@ class ES:
         self.logger = _get_logger('ES')
         self.res = None
         self.log_content = log_content
+        self.return_dict = return_dict
 
     def init(self) -> None:
         """
@@ -41,14 +43,14 @@ class ES:
     def handle_request(self,
                        method: str,
                        url: str,
-                       data: Optional[Dict] = None) -> requests.Response:
+                       data: Optional[Dict] = None) -> Union[requests.Response, Dict]:
 
         """
         Inner method for handling request
         :param method: Method name (one of GET, POST, DELETE, PUT)
         :param url: URL to send to request to
         :param data: Optional data to be sent in request body
-        :return: Requsts response
+        :return: Requsts response or dict
         """
         self.logger.info(f"Request URL : {url}")
         self.logger.info(f"Method : {method}")
@@ -67,7 +69,11 @@ class ES:
         self.logger.info(f"Status : {res.status_code}")
         if self.log_content:
             self.logger.info(f"Content : {res.content}")
-        return res
+
+        if self.return_dict:
+            return get_dict(res)
+        else:
+            return res
 
     def sql(self, query: str, response_format: str = 'json', size: int = 1000) -> Any:
         """

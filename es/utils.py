@@ -3,16 +3,19 @@ import json
 import pandas as pd
 import logging
 import yaml
-from typing import Dict
+from typing import Dict, Union
 
 
-def _convert_to_df(res: requests.Response) -> pd.DataFrame:
+def _convert_to_df(res: Union[requests.Response, Dict]) -> pd.DataFrame:
     """
     Convers response content (it should be json first) to Pandas dataframe
-    :param res: Requests Response
+    :param res: Requests Response or Dict
     :return: pandas Dataframe
     """
-    d = json.loads(res.content.decode())
+    if not isinstance(res, dict):
+        d = json.loads(res.content.decode())
+    else:
+        d = res
     col_names = list()
     col_types = list()
     for col in d['columns']:
@@ -38,7 +41,7 @@ def _get_logger(logger_name: str) -> logging.Logger:
     return logger
 
 
-def _read_config(path) -> Dict:
+def _read_config(path: str) -> Dict:
     """
     Reads yaml config
     :param path: Path of config
@@ -47,3 +50,11 @@ def _read_config(path) -> Dict:
     with open(path) as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
     return config
+
+
+def get_dict(res: requests.Response) -> Dict:
+    """
+    Converts requests content to dictionary
+    :param res: Requests response
+    """
+    return json.loads(res.content.decode())

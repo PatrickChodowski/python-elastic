@@ -1,6 +1,6 @@
 from .es_api import ES
 import requests
-from typing import Optional, Dict
+from typing import Optional, Dict, Union
 
 
 class Document:
@@ -15,7 +15,7 @@ class Document:
                target_name: str,
                data: Dict,
                document_id: Optional[str] = None
-               ) -> requests.Response:
+               ) -> Union[requests.Response, Dict]:
         """
         Creates document
 
@@ -28,7 +28,7 @@ class Document:
         :param target_name: Index or data stream name
         :param data: Data to be added to document
         :param document_id: Document ID (optional, if not given ES will assign random ID)
-        :return: Request Response
+        :return: Request Response or dict
         """
         if data is None:
             raise ValueError("Data cannot be empty")
@@ -44,44 +44,44 @@ class Document:
             res = self.es.handle_request('POST', url, data=data)
         return res
 
-    def get(self, source_name: str, document_id: str) -> requests.Response:
+    def get(self, source_name: str, document_id: str) -> Union[requests.Response, Dict]:
         """
         Reads document by ID
         :param source_name: Index or data stream name
         :param document_id: Document ID
-        :return: Request Response
+        :return: Request Response or dict
         """
         url = self.es.parent_url + f'/{source_name}/_doc/{document_id}'
         res = self.es.handle_request('GET', url)
         return res
 
-    def list(self, source_name: str) -> requests.Response:
+    def list(self, source_name: str) -> Union[requests.Response, Dict]:
         """
         Returns list of all documents
         :param source_name: Index or data stream name
-        :return: Request Response
+        :return: Request Response or dict
         """
         url = self.es.parent_url + f'/{source_name}/_mget'
         res = self.es.handle_request('GET', url)
         return res
 
-    def delete(self, source_name: str, document_id: str) -> requests.Response:
+    def delete(self, source_name: str, document_id: str) -> Union[requests.Response, Dict]:
         """
         Deletes document by ID
         :param source_name: Index or data stream name
         :param document_id: Document ID
-        :return: Request Response
+        :return: Request Response or dict
         """
         url = self.es.parent_url + f'/{source_name}/_doc/{document_id}'
         res = self.es.handle_request('DELETE', url)
         return res
 
-    def update(self, source_name: str, document_id: str) -> requests.Response:
+    def update(self, source_name: str, document_id: str) -> Union[requests.Response, Dict]:
         """
         Updates data in document
         :param source_name: Index or data stream name
         :param document_id: Document ID
-        :return: Request Response
+        :return: Request Response or dict
         """
         url = self.es.parent_url + f'/{source_name}/_update/{document_id}'
         res = self.es.handle_request('POST', url)

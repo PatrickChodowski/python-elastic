@@ -42,7 +42,13 @@ Search for all documents:
 r = idx.search("nba", data={"query": {"match_all": {}}})
 ```
 
+```python
+r = idx.search("nba", data={"track_total_hits": "true"})
+```
 
+```python
+r = idx.search("nba", data={"query": {"range": {"date": {"gte": "2021-08-13"}}}})
+```
 
 
 ### notes:
