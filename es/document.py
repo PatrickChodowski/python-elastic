@@ -47,3 +47,8 @@ class Document:
         url = self.es.parent_url + f'/{source_name}/_doc/{document_id}'
         res = self.es.handle_request('DELETE', url)
         return res
+
+    def update(self, source_name: str, document_id: str) -> requests.Response:
+        url = self.es.parent_url + f'/{source_name}/_update/{document_id}'
+        res = self.es.handle_request('POST', url)
+        return res

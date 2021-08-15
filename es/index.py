@@ -1,5 +1,6 @@
 from .es_api import ES
 import requests
+from typing import Optional, Dict
 
 
 class Index:
@@ -31,7 +32,7 @@ class Index:
         res = self.es.handle_request('POST', url)
         return res
 
-    def search(self, source_name: str) -> requests.Response:
+    def search(self, source_name: str, data: Optional[Dict] = None) -> requests.Response:
         url = self.es.parent_url + f'/{source_name}/_search'
-        res = self.es.handle_request('GET', url)
+        res = self.es.handle_request('GET', url, data=data)
         return res

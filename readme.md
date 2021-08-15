@@ -37,6 +37,11 @@ Use SQL:
 df = es.sql(query="SELECT team_abbreviation FROM nba", response_format='df')
 ```
 
+Search for all documents:
+```python
+r = idx.search("nba", data={"query": {"match_all": {}}})
+```
+
 
 
 
