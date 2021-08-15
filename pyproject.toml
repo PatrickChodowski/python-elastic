@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-elastic"
-version = "0.7.0"
+version = "0.8.0"
 description = "Python package to interact with elasticsearch"
 authors = ["patrick <chodowski.patrick@gmail.com>"]
 

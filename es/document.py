@@ -5,7 +5,10 @@ from typing import Optional, Dict
 
 class Document:
     def __init__(self, es: ES):
-        """ Initializes ES Documents api"""
+        """
+        Initializes ES Documents api
+        :param es: ES api object
+        """
         self.es = es
 
     def create(self,
